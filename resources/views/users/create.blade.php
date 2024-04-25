@@ -4,12 +4,20 @@
 <head>
     <title>Create User</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="{{ asset('css/developer.css') }}">
+    
 </head>
 
 <body>
     <div class="container">
-        <h1 class="mb-4">Create User</h1>
+        <h1 class="mb-6">Create User</h1>
+        <div class="row">
+            <div class="col-md-6 text-left">
+                <a href="{{ route('users.index') }}">
+                    <button type="button" class="btn btn-primary">Back</button>
+                </a>
+            </div>
+        </div>
         <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
 
             @csrf

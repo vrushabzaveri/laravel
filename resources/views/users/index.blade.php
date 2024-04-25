@@ -13,13 +13,13 @@
         <div class="btn-container">
 
             <a href="{{ route('users.create') }}">
-                <button type="button">Add User</button>
+                <button type="button" class="custom-button">Add User</button>
             </a>
 
 
         </div>
 
-        <table>
+        <table class="table-hover">
             <tr>
                 <th>Name</th>
                 <th>Email</th>
@@ -31,7 +31,7 @@
             <tr>
                 <td>{{ $user['name'] }}</td>
                 <td>{{ $user['email'] }}</td>
-                <td><img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}" class="imageFile" ></td>
+                <td><img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}" class="imageFile"></td>
                 <td>{{ $user['active'] ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ route('users.show', $user['id'] ?? '') }}" class="btn btn-primary">View</a>
