@@ -30,7 +30,7 @@ class UsersController extends Controller
             'email' => 'required',
             'username' => 'required',
             'password' => 'required',
-            'image' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'active' => 'required',
         ]);
 
@@ -43,13 +43,10 @@ class UsersController extends Controller
             'active' => $request->input('active'),
         ]);
 
-        //dump($request);
         // HANDLE FILE UPLOAD 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $folder = 'images/users/image/' . $user->id;
-
-            //dd($folder);
 
             // Move the image to the specified folder
             $image->move(public_path($folder), $image->getClientOriginalName());
@@ -84,20 +81,50 @@ class UsersController extends Controller
 
     public function update(Request $request, string $id)
     {
-        // Validate the form data
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            // Add validation rules for other fields (email, username, etc.)
-        ]);
 
+        //dd($request);
         // Find the user by ID
         $user = User::findOrFail($id);
+    
+        //dd($user);  
 
-        // Update the user's data
-        $user->update($validatedData);
+        // Update the user's data except for the image
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'username' => $request->input('username'),
+            'password' => bcrypt($request->input('password')),
+            'active' => $request->input('active'),
+            'created_at'=>now(),
+            'updated_at'=>now(),
+        ]);
+        // Handle image update
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($user->image) {
+                $oldImagePath = public_path('images/users/image/' . $user->id . '/' . $user->image);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+    
+            // Store new image
+            $image = $request->file('image');
+            $folder = 'images/users/image/' . $user->id;
+            $imageName = $image->getClientOriginalName();
+            $image->move(public_path($folder), $imageName);
+    
+            // Update user's image
+            $user->image = $imageName;
+            
+        }
 
+        //dd($user);
+
+        $user->save();
+    
         // Redirect back to the user list or display a success message
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('users.index');
     }
 
     public function destroy(string $id)
