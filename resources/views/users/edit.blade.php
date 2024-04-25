@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit User</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ asset('css/developer.css') }}">
+
 </head>
 
 <body>
@@ -32,13 +34,14 @@
 
             <div class="form-group">
                 <label for="password">Password:</label>
-                <input type="password" name="password"  class="form-control">
+                <input type="password" name="password"  value="{{ $user->password }}" class="form-control">
             </div>
 
             <div class="form-group">
                 <label for="image">Existing Image:</label><br>
-                <img src="{{ asset('images/original/' . $user->id . '/' . $user->image) }}" alt="User Image" width="150">
-            </div>
+                <img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}"  class="imageFile"; >
+
+
 
             <div class="form-group">
                 <label for="active">Active:</label>

@@ -11,11 +11,11 @@
     <div class="container">
         <h1>User Listing</h1>
         <div class="btn-container">
-        
-        <a href="{{ route('users.create') }}">
-        <button type="button">Add User</button>
-    </a>
-                                                                            
+
+            <a href="{{ route('users.create') }}">
+                <button type="button">Add User</button>
+            </a>
+
 
         </div>
 
@@ -31,7 +31,7 @@
             <tr>
                 <td>{{ $user['name'] }}</td>
                 <td>{{ $user['email'] }}</td>
-                <td><img src="{{ asset('images/original/' . $user->id . '/' . $user->image) }}" alt="User Image"></td>
+                <td><img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}" class="imageFile" ></td>
                 <td>{{ $user['active'] ? 'Yes' : 'No' }}</td>
                 <td>
                     <a href="{{ route('users.show', $user['id'] ?? '') }}" class="btn btn-primary">View</a>

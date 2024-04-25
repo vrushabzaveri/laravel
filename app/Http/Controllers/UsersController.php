@@ -1,5 +1,6 @@
 <?php
-
+// first create a controller. after that add models, after that view. 
+// if using resource class in userscontroller (7 classes of CRUD opeartions) write in that and no need to make several routes
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -7,7 +8,7 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
-    
+
     public function index()
     {
         // Fetch user data from the database
@@ -29,35 +30,39 @@ class UsersController extends Controller
             'email' => 'required',
             'username' => 'required',
             'password' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required',
             'active' => 'required',
         ]);
-        
-        $user = new User([
+
+        $user = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'username' => $request->input('username'),
             'password' => bcrypt($request->input('password')),
+            'image' => $request->file('image'),
             'active' => $request->input('active'),
         ]);
-        
+
+        //dump($request);
         // HANDLE FILE UPLOAD 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $folder = 'images/users/image' . $user->id; 
-        
+            $folder = 'images/users/image/' . $user->id;
+
+            //dd($folder);
+
             // Move the image to the specified folder
             $image->move(public_path($folder), $image->getClientOriginalName());
-            
+
             // Update the user's image file name in the database
             $user->image = $image->getClientOriginalName();
         }
-        
+
         $user->save();
-        
+
         // Redirect back to the form with a success message
-        return redirect()->back()->with('success', 'User created successfully.');
-    }        
+        return redirect()->route('users.index');
+    }
 
     public function show(string $id)
     {
@@ -70,11 +75,11 @@ class UsersController extends Controller
 
     public function edit(string $id)
     {
-    // Retrieve the user from the database
-    $user = User::findOrFail($id);
+        // Retrieve the user from the database
+        $user = User::findOrFail($id);
 
-    // Pass the user data to the edit view
-    return view('users.edit', compact('user'));
+        // Pass the user data to the edit view
+        return view('users.edit', compact('user'));
     }
 
     public function update(Request $request, string $id)
@@ -99,6 +104,4 @@ class UsersController extends Controller
     {
         //
     }
-
-    
 }
