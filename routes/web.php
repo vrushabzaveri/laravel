@@ -3,19 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 
-// Route for displaying the registration form
-// Route::get('/register', function () {
-//     return view('view');
-// })->name('register');
+// Route to view users page
+Route::get('users', function () {
+    return view('users');
+})->name('users');
 
-
-/*
-Route::get('/', function() {
-    return view('index');
-});
-*/
-// first route define, then create layout using blade.php, use methods in controller  
+// Authentication routes
+Route::get('login', [UsersController::class, 'showLoginForm'])->name('login');
+Route::post('login', [UsersController::class, 'login']);
+Route::post('logout', [UsersController::class, 'logout'])->name('logout');
 Route::resource('users', UsersController::class);
-//Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 
-?>
+// Registration routes
+Route::get('register', [UsersController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [UsersController::class, 'register']);
+
+// User resource route (CRUD)
+Route::resource('users', UsersController::class)->except(['create']);

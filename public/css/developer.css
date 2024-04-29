@@ -80,3 +80,13 @@ th {
 .custom-button:hover {
     background-color: #303f9f;
 }
+
+.login-btn {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-group {
+    flex: -1;
+    margin-right: 10px; /* Adjust margin as needed */
+}

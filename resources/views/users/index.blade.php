@@ -16,6 +16,10 @@
                 <button type="button" class="custom-button">Add User</button>
             </a>
 
+            <a href= >
+                <button type="button" class="custom-button">Log Out</button>
+            </a>
+
 
         </div>
 

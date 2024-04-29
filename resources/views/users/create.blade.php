@@ -16,6 +16,10 @@
                 <a href="{{ route('users.index') }}">
                     <button type="button" class="btn btn-primary">Back</button>
                 </a>
+
+                <a href="{{ route('login') }}">
+                    <button type="button" class="btn btn-primary">Already a User? Login ></button>
+                </a>
             </div>
         </div>
         <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
