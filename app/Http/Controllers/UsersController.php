@@ -10,13 +10,16 @@ class UsersController extends Controller
 {
 
     public function index()
-    {
-        // Fetch user data from the database
-        $users = User::all(); // Retrieve all users
-
-        // Pass the user data to the view
-        return view('users.index', compact('users'));
-    }
+{
+    // Fetch user data from the database
+    $users = User::all(); // Retrieve all users
+    
+    // Retrieve the logged-in user's name
+    $name = Auth::user()->name; // Get the name of the user
+    
+    // Pass the user data and the logged-in user's name to the view
+    return view('users.index', compact('users', 'name'));
+}
 
     public function create()
     {
@@ -55,7 +58,7 @@ class UsersController extends Controller
 
     // Display the Username whoever is logged in 
 
-   
+
 
     public function showLoginForm()
     {

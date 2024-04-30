@@ -12,11 +12,13 @@
         <h1>User Listing</h1>
         <div class="btn-container">
 
+            <h3>Welcome, {{ $name }}</h3>
+
             <a href="{{ route('users.create') }}">
                 <button type="button" class="custom-button">Add User</button>
             </a>
 
-            <a href= >
+            <a href=>
                 <button type="button" class="custom-button">Log Out</button>
             </a>
 
@@ -32,16 +34,17 @@
                 <th>Action</th>
             </tr>
             @foreach ($users as $user)
-            <tr>
-                <td>{{ $user['name'] }}</td>
-                <td>{{ $user['email'] }}</td>
-                <td><img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}" class="imageFile"></td>
-                <td>{{ $user['active'] ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ route('users.show', $user['id'] ?? '') }}" class="btn btn-primary">View</a>
-                    <a href="{{ route('users.edit', $user['id'] ?? '') }}" class="btn btn-primary">Edit</a>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ $user['name'] }}</td>
+                    <td>{{ $user['email'] }}</td>
+                    <td><img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}"
+                            class="imageFile"></td>
+                    <td>{{ $user['active'] ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a href="{{ route('users.show', $user['id'] ?? '') }}" class="btn btn-primary">View</a>
+                        <a href="{{ route('users.edit', $user['id'] ?? '') }}" class="btn btn-primary">Edit</a>
+                    </td>
+                </tr>
             @endforeach
         </table>
     </div>
