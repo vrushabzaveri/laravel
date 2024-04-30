@@ -22,7 +22,7 @@
                 </a>
             </div>
         </div>
-        <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('users.create') }}" method="POST" enctype="multipart/form-data">
 
             @csrf
 
