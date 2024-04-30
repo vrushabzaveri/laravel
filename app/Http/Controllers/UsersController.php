@@ -10,16 +10,16 @@ class UsersController extends Controller
 {
 
     public function index()
-{
-    // Fetch user data from the database
-    $users = User::all(); // Retrieve all users
-    
-    // Retrieve the logged-in user's name
-    $name = Auth::user()->name; // Get the name of the user
-    
-    // Pass the user data and the logged-in user's name to the view
-    return view('users.index', compact('users', 'name'));
-}
+    {
+        // Fetch user data from the database
+        $users = User::all(); // Retrieve all users
+
+        // Retrieve the logged-in user's name
+        $name = Auth::user()->name; // Get the name of the user
+
+        // Pass the user data and the logged-in user's name to the view
+        return view('users.index', compact('users', 'name'));
+    }
 
     public function create()
     {
@@ -63,6 +63,23 @@ class UsersController extends Controller
     public function showLoginForm()
     {
         return view('users.login');
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validate the request data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
+            // Add more validation rules as needed
+        ]);
+
+        // Update the user data
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+
+        // Redirect back with success message
+        return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }
 
     public function edit($id)

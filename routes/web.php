@@ -22,3 +22,5 @@ Route::post('register', [UsersController::class, 'register']);
 
 // User resource route (CRUD)
 Route::resource('users', UsersController::class)->except(['create']);
+Route::resource('users', UsersController::class);
+
