@@ -7,6 +7,11 @@ use App\Http\Controllers\UsersController;
 Route::get('users', function () {
     return view('users');
 })->name('users');
+//Route::get('/users/{id}/edit', 'UsersController@edit')->name('users.edit');
+
+Route::get('/users/{id}/edit', [UsersController::class, 'edit'])->name('users.edit');
+
+
 
 // Authentication routes
 Route::get('login', [UsersController::class, 'showLoginForm'])->name('login');

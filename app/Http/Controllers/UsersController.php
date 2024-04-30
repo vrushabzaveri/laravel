@@ -53,26 +53,48 @@ class UsersController extends Controller
         return redirect()->route('users.index');
     }
 
+    // Display the Username whoever is logged in 
+
+   
+
     public function showLoginForm()
     {
         return view('users.login');
     }
-    
 
-    public function login(Request $request)
-{
-    $credentials = $request->only('username', 'password');
+    public function edit($id)
+    {
+        // Find the user by ID
+        $user = User::findOrFail($id);
 
-    if (Auth::attempt($credentials)) {
-        // Authentication passed...
-        // Fetch users
-        $users = User::all();
-        // Pass users to the view
-        return view('users.index', compact('users'));
+        // Pass the user data to the view
+        return view('users.edit', compact('user'));
     }
 
-    return back()->withErrors(['username' => 'Invalid credentials']);
-}
+    public function show($id)
+    {
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Pass the user data to the view
+        return view('users.show', compact('user'));
+    }
+
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::attempt($credentials)) {
+            // Authentication
+            // Fetch users
+            $users = User::all();
+            // Pass users to the view
+            return view('users.index', compact('users'));
+        }
+
+        return back()->withErrors(['username' => 'Invalid credentials']);
+    }
 
     public function logout()
     {
