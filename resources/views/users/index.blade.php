@@ -7,19 +7,20 @@
 </head>
 
 <body>
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
 
     <div class="container">
         <h1>User Listing</h1>
         <div class="btn-container">
 
-            <h3>Welcome, {{ $name }}</h3>
-
             <a href="{{ route('users.create') }}">
                 <button type="button" class="custom-button">Add User</button>
             </a>
-
-            <a href=>
-                <button type="button" class="custom-button">Log Out</button>
+            {{-- javascript has been used for user logout --}}
+            <button type="button" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                class="custom-button">Log Out</button>
             </a>
 
 
