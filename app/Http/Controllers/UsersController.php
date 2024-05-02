@@ -10,59 +10,59 @@ class UsersController extends Controller
 {
 
     public function index()
-{
-    // Fetch user data from the database
-    $users = User::all(); // Retrieve all users
+    {
+        // Fetch user data from the database
+        $users = User::all(); // Retrieve all users
 
-    // Pass the user data and the logged-in user's name to the view
-    return view('users.index', compact('users'));
-}
+        // Pass the user data and the logged-in user's name to the view
+        return view('users.index', compact('users'));
+    }
 
     public function create()
-{
-    return view('users.create');
-}
+    {
+        return view('users.create');
+    }
 
-public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required',
-        'email' => 'required',
-        'username' => 'required|unique:users',
-        'password' => 'required',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'active' => 'required',
-    ]);
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'username' => 'required|unique:users',
+            'password' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'active' => 'required',
+        ]);
 
 
 
-    $user = User::create([
-        'name' => $request->input('name'),
-        'email' => $request->input('email'),
-        'username' => $request->input('username'),
-        'password' => bcrypt($request->input('password')),
-        'image'=>$request->file('image'),
-        'active' => $request->input('active'),
-    ]);
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'username' => $request->input('username'),
+            'password' => bcrypt($request->input('password')),
+            'image' => $request->file('image'),
+            'active' => $request->input('active'),
+        ]);
 
         // Handle FILE UPLOAD
         if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = $image->getClientOriginalName();
-    
-        // Create folder if it doesn't exist
-        $folderPath = public_path('images/users/images' . '/' . $user->id);
-    
-        // Move the uploaded image to the folder
-        $image->move($folderPath, $imageName);
-        $user->image = $imageName;
-        } 
+            $image = $request->file('image');
+            $imageName = $image->getClientOriginalName();
 
-        $user->save();    
+            // Create folder if it doesn't exist
+            $folderPath = public_path('images/users/images' . '/' . $user->id);
 
-    // Redirect back to the user list or display a success message
-    return redirect()->route('users.index');
-}
+            // Move the uploaded image to the folder
+            $image->move($folderPath, $imageName);
+            $user->image = $imageName;
+        }
+
+        $user->save();
+
+        // Redirect back to the user list or display a success message
+        return redirect()->route('users.index');
+    }
 
     // Display the Username whoever is logged in 
 
@@ -101,7 +101,7 @@ public function store(Request $request)
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $folderPath = public_path('images/users/images/' . $user->id);
-           
+
             // Move the uploaded image to the folder
             $imageName = $image->getClientOriginalName();
             $image->move($folderPath, $imageName);
