@@ -38,12 +38,11 @@
                 <tr>
                     <td>{{ $user['name'] }}</td>
                     <td>{{ $user['email'] }}</td>
-                    <td><img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}"
-                            class="imageFile"></td>
+                    <td><img src="{{ asset('images/users/images/' . $user->id . '/' . $user->image) }}" alt="User Image" class="imageFile"></td>
                     <td>{{ $user['active'] ? 'Yes' : 'No' }}</td>
                     <td>
-                        <a href="{{ route('users.show', $user['id'] ?? '') }}" class="btn btn-primary">View</a>
-                        <a href="{{ route('users.edit', $user['id'] ?? '') }}" class="btn btn-primary">Edit</a>
+                        <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary">View</a>
+                        <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
                     </td>
                 </tr>
             @endforeach

@@ -64,9 +64,12 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="image">Existing Image:</label><br>
-                        <img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}" id="existingImage" class="imageFile"><br>
+                        {{-- existing image photo  --}}
+                        <img src="{{ asset('images/users/images' . '/' . $user->id . '/' . $user->image) }}" class="imageFile"><br>
+
                         <label for="newImage">Choose Another Image:</label>
                         <input type="file" id="newImage" name="image" accept="image/*" onchange="displayNewImage(event)">
+
                         <img src="#" id="newImagePreview" class="imageFile" style="display: none;">
                     </div>
                 </div>

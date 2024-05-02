@@ -10,51 +10,59 @@ class UsersController extends Controller
 {
 
     public function index()
-    {
-        // Fetch user data from the database
-        $users = User::all(); // Retrieve all users
+{
+    // Fetch user data from the database
+    $users = User::all(); // Retrieve all users
 
-        // Retrieve the logged-in user's name
-        $name = Auth::user()->name; // Get the name of the user
-
-        // Pass the user data and the logged-in user's name to the view
-        return view('users.index', compact('users', 'name'));
-    }
+    // Pass the user data and the logged-in user's name to the view
+    return view('users.index', compact('users'));
+}
 
     public function create()
-    {
-        return view('users.create');
-    }
+{
+    return view('users.create');
+}
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'username' => 'required|unique:users',
-            'password' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'active' => 'required',
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required',
+        'username' => 'required|unique:users',
+        'password' => 'required',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'active' => 'required',
+    ]);
+
+
+
+    $user = User::create([
+        'name' => $request->input('name'),
+        'email' => $request->input('email'),
+        'username' => $request->input('username'),
+        'password' => bcrypt($request->input('password')),
+        'image'=>$request->file('image'),
+        'active' => $request->input('active'),
+    ]);
 
         // Handle FILE UPLOAD
+        if ($request->hasFile('image')) {
         $image = $request->file('image');
-        $folder = 'images/users/image';
         $imageName = $image->getClientOriginalName();
-        $image->move(public_path($folder), $imageName);
+    
+        // Create folder if it doesn't exist
+        $folderPath = public_path('images/users/images' . '/' . $user->id);
+    
+        // Move the uploaded image to the folder
+        $image->move($folderPath, $imageName);
+        $user->image = $imageName;
+        } 
 
-        $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'username' => $request->input('username'),
-            'password' => bcrypt($request->input('password')),
-            'image' => $imageName,
-            'active' => $request->input('active'),
-        ]);
+        $user->save();    
 
-        // Redirect back to the user list or display a success message
-        return redirect()->route('users.index');
-    }
+    // Redirect back to the user list or display a success message
+    return redirect()->route('users.index');
+}
 
     // Display the Username whoever is logged in 
 
@@ -65,23 +73,6 @@ class UsersController extends Controller
         return view('users.login');
     }
 
-    public function update(Request $request, $id)
-    {
-        // Validate the request data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $id,
-            // Add more validation rules as needed
-        ]);
-
-        // Update the user data
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-
-        // Redirect back with success message
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
-    }
-
     public function edit($id)
     {
         // Find the user by ID
@@ -90,6 +81,45 @@ class UsersController extends Controller
         // Pass the user data to the view
         return view('users.edit', compact('user'));
     }
+
+    public function update(Request $request, $id)
+    {
+        // Validate the request data
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users,email,' . $id,
+            'username' => 'required|unique:users,username,' . $id,
+            'password' => 'required',
+            'active' => 'required|boolean',
+        ]);
+
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+
+        $imageName = $user->image;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $folderPath = public_path('images/users/images/' . $user->id);
+           
+            // Move the uploaded image to the folder
+            $imageName = $image->getClientOriginalName();
+            $image->move($folderPath, $imageName);
+        }
+        // Update the user data
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'username' => $request->input('username'),
+            'password' => bcrypt($request->input('password')),
+            'active' => $request->input('active'),
+            'image' => $imageName,
+        ]);
+
+        return redirect()->route('users.index');
+    }
+
+
 
     public function show($id)
     {

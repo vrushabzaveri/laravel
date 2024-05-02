@@ -39,7 +39,7 @@
                 </tr>
                 <tr>
                     <td><strong>Image:</strong></td>
-                    <td><img src="{{ asset('images/users/image/' . $user->id . '/' . $user->image) }}" class="imageFile"></td>
+                    <td><img src="{{ asset('images/users/images/' . $user->id . '/' . $user->image) }}" class="imageFile"></td>
                 </tr>
                 <tr>
                     <td><strong>Active:</strong></td>
