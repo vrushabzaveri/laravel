@@ -1,0 +1,14 @@
+// my database configuration:
+  1	id Primary	int(11)			No	None		AUTO_INCREMENT	Change Change	Drop Drop	
+	2	name	      varchar(255)	utf8mb4_general_ci		No	None			Change Change	Drop Drop	
+	3	email	      varchar(255)	utf8mb4_general_ci		No	None			Change Change	Drop Drop	
+	4	username	  varchar(255)	utf8mb4_general_ci		No	None			Change Change	Drop Drop	
+	5	password	  varchar(255)	utf8mb4_general_ci		No	None			Change Change	Drop Drop	
+	6	image	      varchar(255)	utf8mb4_general_ci		No	None			Change Change	Drop Drop	
+	7	active	    tinyint(1)			No	None			Change Change	Drop Drop	
+	8	created_at	datetime			No	None			Change Change	Drop Drop	
+	9	updated_at	datetime			No	None			Change Change	Drop Drop	
+
+
+// my parameters:
+id name email username password image active created_at updated_at
