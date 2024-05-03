@@ -27,8 +27,9 @@
                 <div class="button-group">
                     <button type="submit" class="custom-button">Login</button>
                 </div>
+
                 <div class="button-group">
-                    <a href="{{ route('register') }}">
+                    <a href="{{ route('users.create') }}">
                         <button type="button" class="btn btn-primary">Create New User</button>
                     </a>
                 </div>

@@ -6,13 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
+
 class UsersController extends Controller
 {
+
+    // public function paginate()
+    // {
+    //     $users = User::paginate(10); // Paginate users with 10 users per page
+    //     return view('users.index', ['users' => $users]);
+    // }
 
     public function index()
     {
         // Fetch user data from the database
-        $users = User::all(); // Retrieve all users
+        $users = User::paginate(10); // Retrieve all users
 
         // Pass the user data and the logged-in user's name to the view
         return view('users.index', compact('users'));
@@ -133,12 +140,14 @@ class UsersController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
 
+        $credentials = $request->only('username', 'password');
+        //dd($credentials);
         if (Auth::attempt($credentials)) {
             // Authentication
             // Fetch users
             $users = User::all();
+
             // Pass users to the view
             return view('users.index', compact('users'));
         }

@@ -1,11 +1,32 @@
-/* developer.css */
-
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 20px;
     padding: 0;
     background-color: #f8f9fa;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.pagination li {
+    margin: 0 5px;
+    list-style: none;
+}
+
+.pagination li a {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    color: #333;
+    text-decoration: none;
+}
+
+.pagination li.active a {
+    background-color: #007bff;
+    color: #fff;
+}
+
 
 .container {
     max-width: 960px;

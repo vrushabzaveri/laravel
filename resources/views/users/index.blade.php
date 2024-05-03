@@ -36,11 +36,11 @@
             </tr>
             @foreach ($users as $user)
                 <tr>
-                    <td>{{ $user['name'] }}</td>
-                    <td>{{ $user['email'] }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
                     <td><img src="{{ asset('images/users/images/' . $user->id . '/' . $user->image) }}" alt="User Image"
                             class="imageFile"></td>
-                    <td>{{ $user['active'] ? 'Yes' : 'No' }}</td>
+                    <td>{{ $user->active ? 'Yes' : 'No' }}</td>
                     <td>
                         <a href="{{ route('users.show', $user->id) }}" class="btn btn-primary">View</a>
                         <a href="{{ route('users.edit', $user->id) }}" class="btn btn-primary">Edit</a>
@@ -48,6 +48,18 @@
                 </tr>
             @endforeach
         </table>
+
+        {{-- pagination --}}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+
+                <li class="page-item"><a class="page-link" href="{{ $users->previousPageUrl() }}">1</a></li>
+                <li class="page-item"><a class="page-link" href="{{ $users->nextPageUrl() }}">2</a></li>
+
+            </ul>
+        </nav>
+
+
     </div>
 
 </body>
